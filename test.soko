@@ -1,0 +1,17 @@
+# Configuración de pines
+CONFIG PIN 5 OUT
+CONFIG PIN 25 ANALOG_OUT
+CONFIG PIN 34 ANALOG_IN
+CONFIG PIN 4 IN
+
+# Parpadeo digital simple
+SET PIN 5 = ON
+SLEEP 500
+SET PIN 5 = OFF
+SLEEP 500
+
+# Mientras el sensor analógico esté por debajo de 3000, sube el PWM
+WHILE (PIN 34 < 3000) DO
+    SET PIN 25 = 255
+    SLEEP 100
+ENDWHILE
