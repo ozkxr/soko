@@ -1,0 +1,9 @@
+# Blink en el pin 8 (equivale a setup + loop de Arduino)
+CONFIG PIN 8 OUT
+
+WHILE (TRUE) DO
+    SET PIN 8 = ON
+    SLEEP 1000
+    SET PIN 8 = OFF
+    SLEEP 1000
+ENDWHILE

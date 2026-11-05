@@ -1,0 +1,11 @@
+# LED en el pin 8 encendido mientras el boton del pin 2 este apretado (pull-down: apretado = HIGH)
+CONFIG PIN 2 IN     # BOTON
+CONFIG PIN 8 OUT    # LED
+
+WHILE (TRUE) DO
+    IF (PIN 2) THEN
+        SET PIN 8 = ON
+    ELSE
+        SET PIN 8 = OFF
+    ENDIF
+ENDWHILE
