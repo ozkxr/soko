@@ -1,0 +1,17 @@
+# Generado por ANTLR (se regenera desde SOKO.g4)
+SOKOLexer.*
+SOKOParser*.*
+SOKOVisitor.*
+SOKOListener.*
+SOKOBaseListener.*
+SOKO.interp
+SOKO.tokens
+.antlr/
+
+# Compilados
+*.class
+__pycache__/
+
+# Varios
+*:Zone.Identifier
+*.bak
