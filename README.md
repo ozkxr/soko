@@ -25,8 +25,10 @@ Estos comandos actualizan archivos como `SOKOLexer.py`, `SOKOParser.py`, `SOKOVi
 ## Compilar los archivos Java
 
 ```bash
-antlr4 *.java
+javac *.java
 ```
+
+`javac` necesita el jar de ANTLR en el `CLASSPATH` (por ejemplo, `javac -cp ~/lib/antlr-4.9.2-complete.jar *.java`).
 
 La compilacion genera archivos `.class` en la misma carpeta.
 
@@ -35,5 +37,6 @@ La compilacion genera archivos `.class` en la misma carpeta.
 `main.py` lee `test.soko` por defecto:
 
 ```bash
-python3 main.py
+python3 main.py            # test.soko
+python3 main.py soko.txt   # otro archivo
 ```
