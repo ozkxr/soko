@@ -11,7 +11,6 @@ statement
     | bucleRepeat
     | condicionalIf
     | sleepCmd
-    | comentario
     ;
 
 configPin
@@ -50,7 +49,8 @@ condicionalIf
     ;
 
 condition
-    : '!'? PIN INT (comparador value)?
+    : TRUE
+    | '!'? PIN INT (comparador value)?
     ;
 
 comparador
@@ -64,10 +64,6 @@ comparador
 
 sleepCmd
     : SLEEP INT
-    ;
-
-comentario
-    : COMENTARIO
     ;
 
 // PALABRAS CLAVE
@@ -91,6 +87,7 @@ SLEEP     : 'SLEEP' ;
 PIN       : 'PIN' ;
 ON        : 'ON' ;
 OFF       : 'OFF' ;
+TRUE      : 'TRUE' ;
 
 FLOAT     : [0-9]+ '.' [0-9]+ ;
 INT       : [0-9]+ ;
