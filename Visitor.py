@@ -3,6 +3,36 @@ from SOKOVisitor import SOKOVisitor
 
 class Visitor(SOKOVisitor):
     
+    
+    def __init__(self):
+        super().__init__()
+        # map si es salida o entrada
+        self.pinTable = {}
+        # tabla simbolos
+        self.symbolTable = {}
+        # log errores (linea, mensaje)
+        self.errorsLog = []
+        # validar pines
+        self.VALID_PINS = set(range(40))
+
+    def _report_error(self, ctx, message):
+        self.errorsLog.append((ctx.start.line, message))
+        print(f"ERROR SEMANTICO (linea {ctx.start.line}): {message}")
+
+    def _pin_is_valid(self, pin, ctx):
+        if pin not in self.VALID_PINS:
+            self._report_error(ctx, f"el pin {pin} esta fuera de rango (0-39)")
+            return False
+        return True
+
+    def _declared_mode(self, pin, ctx):
+        if not self._pin_is_valid(pin, ctx):
+            return None
+        mode = self.pinTable.get(pin)
+        if mode is None:
+            self._report_error(ctx, f"el pin {pin} no fue declarado")
+        return mode
+    
     def visitProgram(self, ctx: SOKOParser.ProgramContext):
         print("INICIO PROGRAMA")
         
@@ -15,13 +45,32 @@ class Visitor(SOKOVisitor):
         pin = int(ctx.INT().getText())
         modo = self.visit(ctx.pinMode())
 
+        if not self._pin_is_valid(pin, ctx):
+            return None
+        if pin in self.pinTable:
+            self._report_error(ctx, f"el pin {pin} ya fue declarado")
+            return None
+
+        self.pinTable[pin] = modo
+        self.symbolTable[f"pin{pin}"] = modo
 
         print(f"CONFIG -> pin {pin} como {modo}")
         return None
 
     def visitSetPin(self, ctx: SOKOParser.SetPinContext):
-        pin = ctx.INT().getText()
+        pin = int(ctx.INT().getText())
         value = self.visit(ctx.value())
+
+        modo = self._declared_mode(pin, ctx)
+        if modo is None:
+            return None
+        if modo not in {"OUT", "ANALOG_OUT"}:
+            self._report_error(
+                ctx,
+                f"no se puede escribir el pin {pin}: fue declarado como {modo}",
+            )
+            return None
+
         print(f"SET -> pin {pin} = {value}")
         return None
 
@@ -67,8 +116,19 @@ class Visitor(SOKOVisitor):
         return None
 
     def visitCondition(self, ctx: SOKOParser.ConditionContext):
+        # WHILE (TRUE): bucle infinito, no lee ningun pin
+        if ctx.TRUE():
+            return "TRUE"
+
         negation = "!" if ctx.getChild(0).getText() == "!" else ""
-        pin = ctx.INT().getText()
+        pin = int(ctx.INT().getText())
+
+        modo = self._declared_mode(pin, ctx)
+        if modo is not None and modo not in {"IN", "ANALOG_IN"}:
+            self._report_error(
+                ctx,
+                f"no se puede leer el pin {pin}: fue declarado como {modo}",
+            )
 
         if ctx.comparador() and ctx.value():
             return f"{negation}PIN {pin} {ctx.comparador().getText()} {self.visit(ctx.value())}"

@@ -1,3 +1,5 @@
+import argparse
+
 from antlr4 import CommonTokenStream, InputStream
 from SOKOLexer import SOKOLexer
 from SOKOParser import SOKOParser
@@ -19,8 +21,13 @@ def ejecutar(ruta_archivo="test.soko"):
 
     visitor = Visitor()
     visitor.visitProgram(tree)
+    if visitor.errorsLog:
+        print(f"Se encontraron {len(visitor.errorsLog)} error(es) semantico(s)")
     
     
 if __name__ == "__main__":
-    ejecutar()
+    args_parser = argparse.ArgumentParser(description="Analizador del lenguaje SOKO")
+    args_parser.add_argument("archivo", nargs="?", default="test.soko")
+    args = args_parser.parse_args()
+    ejecutar(args.archivo)
     
