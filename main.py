@@ -4,6 +4,8 @@ from antlr4 import CommonTokenStream, InputStream
 from SOKOLexer import SOKOLexer
 from SOKOParser import SOKOParser
 from Visitor import Visitor
+from C3DVisitor import C3DVisitor
+from GeneradorArduino import GeneradorArduino
 
 def ejecutar(ruta_archivo="test.soko"):
     with open(ruta_archivo, encoding="utf-8") as archivo:
@@ -23,6 +25,14 @@ def ejecutar(ruta_archivo="test.soko"):
     visitor.visitProgram(tree)
     if visitor.errorsLog:
         print(f"Se encontraron {len(visitor.errorsLog)} error(es) semantico(s)")
+        return
+
+    c3d_visitor = C3DVisitor()
+    c3d = c3d_visitor.visit(tree)
+    print("\n--- C3D ---")
+    print("\n".join(c3d))
+    print("\n--- ARDUINO ---")
+    print(GeneradorArduino(c3d).generar())
     
     
 if __name__ == "__main__":
