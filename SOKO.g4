@@ -32,8 +32,7 @@ value
     ;
 
 numero
-    : FLOAT
-    | INT
+    : INT
     ;
 
 bucleWhile
@@ -89,7 +88,6 @@ ON        : 'ON' ;
 OFF       : 'OFF' ;
 TRUE      : 'TRUE' ;
 
-FLOAT     : [0-9]+ '.' [0-9]+ ;
 INT       : [0-9]+ ;
 COMENTARIO: '#' ~[\r\n]* -> skip ;
 WS        : [ \t\r\n]+ -> skip ;
