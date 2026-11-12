@@ -74,7 +74,7 @@ class GeneradorArduino:
 
         plantilla = [
             "// ====================================================",
-            "// Codigo generado automaticamente desde ArchLang (C3D)",
+            "// Codigo generado automaticamente desde soko (C3D)",
             "// ====================================================",
             "",
             "void setup() {",

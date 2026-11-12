@@ -7,7 +7,7 @@ from Visitor import Visitor
 from C3DVisitor import C3DVisitor
 from GeneradorArduino import GeneradorArduino
 
-def ejecutar(ruta_archivo="test.soko"):
+def ejecutar(ruta_archivo="ejemplos/test.soko"):
     with open(ruta_archivo, encoding="utf-8") as archivo:
         src_code = archivo.read()
 
@@ -37,7 +37,7 @@ def ejecutar(ruta_archivo="test.soko"):
     
 if __name__ == "__main__":
     args_parser = argparse.ArgumentParser(description="Analizador del lenguaje SOKO")
-    args_parser.add_argument("archivo", nargs="?", default="test.soko")
+    args_parser.add_argument("archivo", nargs="?", default="ejemplos/test.soko")
     args = args_parser.parse_args()
     ejecutar(args.archivo)
     

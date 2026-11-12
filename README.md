@@ -34,11 +34,11 @@ La compilacion genera archivos `.class` en la misma carpeta.
 
 ## Ejecutar el test con Python
 
-`main.py` lee `test.soko` por defecto:
+`main.py` lee `ejemplos/test.soko` por defecto:
 
 ```bash
-python3 main.py            # test.soko
-python3 main.py soko.txt   # otro archivo
+python3 main.py                     # ejemplos/test.soko
+python3 main.py ejemplos/soko.txt   # otro archivo
 ```
 
 Si el programa no tiene errores, tambien imprime el codigo de tres direcciones (C3D) y el codigo Arduino que sale de `GeneradorArduino.py`.
